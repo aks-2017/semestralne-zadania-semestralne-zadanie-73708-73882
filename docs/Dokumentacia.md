@@ -1,4 +1,4 @@
-# Mininet-WiFi: Emulating Software-Deﬁned Wireless Networks 
+﻿# Mininet-WiFi: Emulating Software-Deﬁned Wireless Networks 
 
 # Martin Gembec, Martin Dieška 
 Cvičiaci: Ing. Tomáš Boros, Utorok - 19:00
@@ -31,6 +31,9 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
   Používateľ bude mať možnosť overiť konektivitu zvolenej stanice na inú stanicu, alebo na prístupový bod. Taktiež bude môcť overiť dostupnosť staníc z pohľadu prístupového bodu.
   
   Overené pripojenia z predchádzajúceho bodu sa budú dať zobraziť ako textová informácia na webe.
+
+### Mockup návrh webovej aplikácie
+![alt text](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/images/webapp-mockup.PNG)
    
   
 

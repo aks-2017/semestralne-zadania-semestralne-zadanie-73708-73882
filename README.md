@@ -1,1 +1,1 @@
-Skuska
+# MININET-WIFI na vo webovom rozhrani
