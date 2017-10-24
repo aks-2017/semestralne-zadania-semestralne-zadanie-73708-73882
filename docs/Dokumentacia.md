@@ -33,7 +33,7 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
   Overené pripojenia z predchádzajúceho bodu sa budú dať zobraziť ako textová informácia na webe.
 
 ### Mockup návrh webovej aplikácie
-![alt text](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/images/webapp-mockup.PNG)
+![webapp-mockup](https://user-images.githubusercontent.com/18384192/31973089-6ef84910-b924-11e7-94be-b40f5516d06c.PNG)
    
   
 
