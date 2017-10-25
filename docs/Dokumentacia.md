@@ -15,6 +15,7 @@ Mininet-Wifi môžeme definovať ako rozšírenie už existujúceho Mininet emul
 
 ### Architektúra Mininet-Wifi
 ![architecture](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/architecture.png "Architektura")
+
 Obrázok 1. - Architektúra emulátora Mininet-Wifi[2]
 
 Pomocou Mininet-Wifi vieme nasimulovať akúkoľvek topológiu siete, a následne ju zreplikovať aj v reálnom svete. Pre simuláciu sú k dispozícií dva modely: Mobility model a Propagations model[2].
@@ -27,10 +28,12 @@ V súčasnosti podporuje Mininet-Wifi model tieto Propagations modely: Free-Spac
 VANET je skratka pre Vehicle Ad Hoc Network. Táto sieť zabezpečuje komunikáciu medzi vozidlami a má slúžiť hlavne na zvýšenie bezpečnosti vozidiel, ktoré navzájom komunikujú v sieti a v prípade kolízie si posielajú varovné signály. Vďaka Mininet-Wifi by mohla byť táto komunikácia spoľahlivejšia a rýchlejšia.[4]
 
 ![vanet](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/vanet.png "vanet example")
+
 Obrázok 2. - Prehľad programovateľnosti OpenFlow s použitím VANET a architektúry automobilových uzlov, ako staníc v službe Mininet-WiFi[4]
 
 ### Porovnanie emulátorov
 ![emulators](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/emulator_compare.png "Porovnanie emulatorov")
+
 Obrázok 3. - Porovnanie emulátorov, ktoré taktiež poskytujú Wifi rozhranie[2]
 
 # Návrh
@@ -55,6 +58,7 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
 
 ## Mockup návrh webovej aplikácie
 ![webapp-mockup](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/webapp-mockup.PNG "Mockup")
+
 Obrázok 4. - Mockup návrh, ako by mohla vyzerať webová aplikácia
    
 # Použitá literatúra
