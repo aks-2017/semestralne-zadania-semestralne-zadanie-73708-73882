@@ -11,16 +11,16 @@ Mininet je sieťový emulátor SDN sietí. Pomocou tohto emulátora dokážeme v
 Používateľ má možnosť jednoducho pridávať hostov, switche, routre a prepojenia medzi nimi, čo zabezpečuje flexibilitu pri vytváraní požadovanej topológie (môžeme vytvoriť topológiu s jedným switchom alebo komplexnú topológiu, napr. dátové centrum). Hostovia sa správajú rovnako, ako na skutočnom stroji; je možné testovať komunikáciu medzi jednotlivými hostami alebo spúšťať vlastné programy, ktoré budú odosielať pakety rovnako, ako keby boli spustené na skutočnom Ethernet rozhraní.
 
 ## Mininet-Wifi
-Mininet-Wifi môžeme definovať ako rozšírenie už existujúceho Mininet emulátora pre SDN siete o virtualizované prístupové body a stanice, ktoré zabezpečujú bezdrôtové pripojenie. V takto upravenom emulátore je stále možné používať funkcionalitu klasického SDN emulátora, avšak je pridaná aj nová funkcionalita, ako napríklad určenie pozície a pohybu stanice relatívne ku prístupovému bodu.
-
-Pomocou Mininet-Wifi vieme nasimulovať akúkoľvek topológiu siete, a následne ju zreplikovať aj v reálnom svete. Pre simuláciu sú k dispozícií dva modely: Mobility model a Propagations model.
+Mininet-Wifi môžeme definovať ako rozšírenie už existujúceho Mininet emulátora pre SDN siete o virtualizované prístupové body a stanice, ktoré zabezpečujú bezdrôtové pripojenie. V takto upravenom emulátore je stále možné používať funkcionalitu klasického SDN emulátora, avšak je pridaná aj nová funkcionalita, ako napríklad určenie pozície a pohybu stanice relatívne ku prístupovému bodu[1].
 
 ### Architektúra Mininet-Wifi
 ![architecture](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/architecture.png "Architektura")
 
-Aktuálne Mobility modely podporované s Mininet-Wifi sú: Random-Walk, Truncated-Levy Walk, Random- Direction, Random-Waypoint, Gauss-Markov, Reference-Point and Time-Variant Community. Nie sú to však jediné modely, pretože používateľ si vie sám zadefinovať, ktorými bodmi uzol prejde, v akom čase a akou rýchlosťou. Vďaka tomu má používateľ totálnu kontrolu nad uzlami a ich pohybom.
+Pomocou Mininet-Wifi vieme nasimulovať akúkoľvek topológiu siete, a následne ju zreplikovať aj v reálnom svete. Pre simuláciu sú k dispozícií dva modely: Mobility model a Propagations model[2].
 
-V súčasnosti podporuje Mininet-Wifi model tieto Propagations modely: Free-Space, Log-Distance, Two-Ray Ground, and International Telecommunication Union (ITU). Úlohou takýchto modelov je výpočet signálu, ktorý prijme stanica a konverzia týchto hodnôt do reálnych vlastností siete, ako napríklad očakávaná strata paketov a podobne.
+Aktuálne Mobility modely podporované s Mininet-Wifi sú: Random-Walk, Truncated-Levy Walk, Random- Direction, Random-Waypoint, Gauss-Markov, Reference-Point and Time-Variant Community. Nie sú to však jediné modely, pretože používateľ si vie sám zadefinovať, ktorými bodmi uzol prejde, v akom čase a akou rýchlosťou. Vďaka tomu má používateľ totálnu kontrolu nad uzlami a ich pohybom[2].
+
+V súčasnosti podporuje Mininet-Wifi model tieto Propagations modely: Free-Space, Log-Distance, Two-Ray Ground, and International Telecommunication Union (ITU). Úlohou takýchto modelov je výpočet signálu, ktorý prijme stanica a konverzia týchto hodnôt do reálnych vlastností siete, ako napríklad očakávaná strata paketov a podobne[2].
 
 ### Porovnanie emulátorov
 ![emulators](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/emulator_compare.png "Porovnanie emulatorov")
@@ -48,6 +48,10 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
 ## Mockup návrh webovej aplikácie
 ![webapp-mockup](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/webapp-mockup.PNG "Mockup")
    
-  
+# Použitá literatúra
+1. http://ieeexplore.ieee.org/document/7367387/
+
+2. Ramon dos Reis Fontes and Mohamed Mahfoudi and Walid Dabbous and Thierry Turletti and Chris- tian Rothenberg. How Far Can We Go? Towards Realistic Software-Defined Wireless Networking Experiments, Oxford University Press (OUP), DOI: 10.1093/comjnl/bxx023.
+
 
 
