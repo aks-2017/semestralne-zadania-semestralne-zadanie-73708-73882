@@ -41,7 +41,7 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
   Architektúra aplikácie bude postavená na základe Server-Client komunikácie. Bude pozostávať zo serveru, ktorý bude pracovať s Mininet-Wifi a zároveň bude poskytovať RESTové rozhranie zabezpečujúce komunikáciu s klientom. Klient bude následne využívať RESTové rozhranie na vykonávanie požiadaviek od používateľa a prijímanie dát, ktoré zobrazí následne na webe.
 
 ### Mockup návrh webovej aplikácie
-![webapp-mockup](https://user-images.githubusercontent.com/18384192/31973089-6ef84910-b924-11e7-94be-b40f5516d06c.PNG)
+![webapp-mockup](semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/webapp-mockup.PNG "Mockup")
    
   
 
