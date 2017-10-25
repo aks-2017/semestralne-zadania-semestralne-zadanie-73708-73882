@@ -22,6 +22,11 @@ Aktuálne Mobility modely podporované s Mininet-Wifi sú: Random-Walk, Truncate
 
 V súčasnosti podporuje Mininet-Wifi model tieto Propagations modely: Free-Space, Log-Distance, Two-Ray Ground, and International Telecommunication Union (ITU). Úlohou takýchto modelov je výpočet signálu, ktorý prijme stanica a konverzia týchto hodnôt do reálnych vlastností siete, ako napríklad očakávaná strata paketov a podobne[2].
 
+### VANET
+VANET je skratka pre Vehicle Ad Hoc Network. Táto sieť zabezpečuje komunikáciu medzi vozidlami a má slúžiť hlavne na zvýšenie bezpečnosti vozidiel, ktoré navzájom komunikujú v sieti a v prípade kolízie si posielajú varovné signály. Vďaka Mininet-Wifi by mohla byť táto komunikácia spoľahlivejšia a rýchlejšia.[4]
+![vanet](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/vanet.png "vanet example")
+Prehľad programovateľnosti OpenFlow s použitím VANET a architektúry automobilových uzlov, ako staníc v službe Mininet-WiFi[4]
+
 ### Porovnanie emulátorov
 ![emulators](https://github.com/aks-2017/semestralne-zadania-semestralne-zadanie-xdieska-xgembec/blob/master/images/emulator_compare.png "Porovnanie emulatorov")
 
@@ -54,4 +59,6 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
 2. Ramon dos Reis Fontes and Mohamed Mahfoudi and Walid Dabbous and Thierry Turletti and Chris- tian Rothenberg. How Far Can We Go? Towards Realistic Software-Defined Wireless Networking Experiments, Oxford University Press (OUP), DOI: 10.1093/comjnl/bxx023.
 
 3. Kreutz, D., Ramos, F. M. V., Ver´ıssimo, P., Rothenberg, C. E., Azodolmolky, S., and Uhlig, S. (2014) Software-defined networking: A comprehensive survey. CoRR, abs/1406.0440.
+
+4. Fontes, R. R. and Rothenberg, C. E, From Theory to Experimental Evaluation: Resource Management in Software-Defined Vehicular Networks, University of Campinas (UNICAMP), Feb 23, 2017
 
