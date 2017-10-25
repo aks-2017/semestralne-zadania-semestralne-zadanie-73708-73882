@@ -13,6 +13,12 @@ Používateľ má možnosť jednoducho pridávať hostov, switche, routre a prep
 ### Mininet-Wifi
 Mininet-Wifi môžeme definovať ako rozšírenie už existujúceho Mininet emulátora pre SDN siete o virtualizované prístupové body a stanice, ktoré zabezpečujú bezdrôtové pripojenie. V takto upravenom emulátore je stále možné používať funkcionalitu klasického SDN emulátora, avšak je pridaná aj nová funkcionalita, ako napríklad určenie pozície a pohybu stanice relatívne ku prístupovému bodu.
 
+Pomocou Mininet-Wifi vieme nasimulovať akúkoľvek topológiu siete, a následne ju zreplikovať aj v reálnom svete. Pre simuláciu sú k dispozícií dva modely: Mobility model a Propagations model.
+
+Aktuálne Mobility modely podporované s Mininet-Wifi sú: Random-Walk, Truncated-Levy Walk, Random- Direction, Random-Waypoint, Gauss-Markov, Reference-Point and Time-Variant Community. Nie sú to však jediné modely, pretože používateľ si vie sám zadefinovať, ktorými bodmi uzol prejde, v akom čase a akou rýchlosťou. Vďaka tomu má používateľ totálnu kontrolu nad uzlami a ich pohybom.
+
+V súčasnosti podporuje Mininet-Wifi model tieto Propagations modely: Free-Space, Log-Distance, Two-Ray Ground, and International Telecommunication Union (ITU). Úlohou takýchto modelov je výpočet signálu, ktorý prijme stanica a konverzia týchto hodnôt do reálnych vlastností siete, ako napríklad očakávaná strata paketov a podobne.
+
 
 ## Návrh
 V našej práci budeme overovať predchádzajúcu prácu[1], ktorá sa zaoberala témou Mininet-Wifi. Autori v článku podrobne rozpisovali SDN siete a Mininet – emulátor pre vytváranie takýchto sieti. Následne predstavujú Mininet-Wifi; spojenie Mininetu a prístupových bodov a staníc, ktoré zabezpečujú bezdrôtové pripojenie. V článku je opísaný postup, ako si vytvoriť vlastnú topológiu spolu s príkladmi komunikácie medzi jednotlivými hostami pomocou tejto bezdrôtovej siete. Nakoniec boli uvedené softvérové a hardvérové experimenty, ktoré ukázali výhody a slabiny Mininet-Wifi emulátora.
