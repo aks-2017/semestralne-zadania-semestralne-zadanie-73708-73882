@@ -31,6 +31,8 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
   Používateľ bude mať možnosť overiť konektivitu zvolenej stanice na inú stanicu, alebo na prístupový bod. Taktiež bude môcť overiť dostupnosť staníc z pohľadu prístupového bodu.
   
   Overené pripojenia z predchádzajúceho bodu sa budú dať zobraziť ako textová informácia na webe.
+  
+  Architektúra aplikácie bude postavená na základe Server-Client komunikácie. Bude pozostávať zo serveru, ktorý bude pracovať s Mininet-Wifi a zároveň bude poskytovať RESTové rozhranie zabezpečujúce komunikáciu s klientom. Klient bude následne využívať RESTové rozhranie na vykonávanie požiadaviek od používateľa a prijímanie dát, ktoré zobrazí následne na webe.
 
 ### Mockup návrh webovej aplikácie
 ![webapp-mockup](https://user-images.githubusercontent.com/18384192/31973089-6ef84910-b924-11e7-94be-b40f5516d06c.PNG)
