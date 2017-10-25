@@ -62,7 +62,8 @@ Vytvorením sieťovej topológie sa myslí vytovrenie zadaného počtu staníc a
 Obrázok 4. - Mockup návrh, ako by mohla vyzerať webová aplikácia
    
 # Použitá literatúra
-1. http://ieeexplore.ieee.org/document/7367387/
+1. R. R. Fontes, S. Afzal, S. H. B. Brito, M. A. S. Santos and C. E. Rothenberg, "Mininet-WiFi: Emulating software-defined wireless networks," 2015 11th International Conference on Network and Service Management (CNSM), Barcelona, 2015, pp. 384-389.
+doi: 10.1109/CNSM.2015.7367387
 
 2. Ramon dos Reis Fontes and Mohamed Mahfoudi and Walid Dabbous and Thierry Turletti and Chris- tian Rothenberg. How Far Can We Go? Towards Realistic Software-Defined Wireless Networking Experiments, Oxford University Press (OUP), DOI: 10.1093/comjnl/bxx023.
 
