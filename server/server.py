@@ -1,5 +1,8 @@
 #!flask/bin/python
+
 from flask import Flask, jsonify, abort, request
+from lib.create import create
+
 
 app = Flask(__name__)
 
@@ -36,11 +39,12 @@ def root():
 
 
 @app.route('/create', methods=['POST'])
-def create():
+def create_topo():
     data = request.get_json()
     st = data['station']
     ap = data['ap']
 
+    create(int(st), int(ap))
     sprava= "Uspesne vytvorena topologia s "+st+" stanicami a "+ap+" apckami!"
 
     return jsonify({'sprava': sprava})
