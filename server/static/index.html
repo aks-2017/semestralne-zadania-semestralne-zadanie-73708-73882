@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mininet_wifi playground</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/style.css">
+
+
+
+</head>
+<body>
+
+<div class="container">
+
+
+        <h2 class="text-center">Vytvorenie topologie</h2>
+        <div class="row">
+            <label >Pocet stanic</label>
+            <div class="col-xs-3 col-xs-offset-3">
+                <div class="input-group number-spinner">
+				<span class="input-group-btn">
+					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+				</span>
+                    <input id="in_st" type="text" class="form-control text-center" value="1">
+                    <span class="input-group-btn">
+					<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+				</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label>Pocet pristupovych bodov</label>
+            <div class="col-xs-3 col-xs-offset-3">
+                <div class="input-group number-spinner">
+				<span class="input-group-btn">
+					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+				</span>
+                    <input id="in_ap" type="text" class="form-control text-center" value="1">
+                    <span class="input-group-btn">
+					<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+				</span>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <button class="cudlik btn btn-lg btn-primary col-xs-3 col-xs-offset-3" onclick="create();">Create TOPO</button>
+        </div>
+<div class="row">
+    <span id="myspan"></span>
+</div>
+
+
+
+</div>
+
+</body>
+
+<script>
+    $(document).on('click', '.number-spinner button', function () {
+        var btn = $(this),
+            oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+            newVal = 0;
+
+        if (btn.attr('data-dir') == 'up') {
+            newVal = parseInt(oldValue) + 1;
+        } else {
+            if (oldValue > 1) {
+                newVal = parseInt(oldValue) - 1;
+            } else {
+                newVal = 1;
+            }
+        }
+        btn.closest('.number-spinner').find('input').val(newVal);
+    });
+
+
+       function create(){
+
+            var station = $('#in_st').val();
+            var ap = $('#in_ap').val();
+            var list = {ap,station}
+            $.ajax({
+                url: '/create',
+                data: JSON.stringify(list),
+                contentType: "application/json",
+                type: 'POST',
+                success: function(response) {
+                    document.getElementById("myspan").textContent=response.sprava;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        };
+
+</script>
+
+
+</html>
+
