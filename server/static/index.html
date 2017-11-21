@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Mininet_wifi playground</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.2/go.js"></script>
+    
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="static/style.css">
@@ -11,7 +13,7 @@
 
 
 </head>
-<body>
+<body onload="init()">
 
 <div class="container">
 
@@ -52,6 +54,13 @@
 <div class="row">
     <span id="myspan"></span>
 </div>
+
+
+    <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:600px"></div>
+  <p> A sample of a Euler diagram: that is, a means of representing various sets and their relationships with one another. Euler diagrams have much in common with Venn diagrams.
+    This diagram is read-only, but clicking on a node will search Wikipedia
+    with a query string generated from the "text" property of the node data.
+  </p>
 
 
 
@@ -96,6 +105,65 @@
                 }
             });
         };
+
+
+function init() {
+    
+    var $ = go.GraphObject.make;
+    myDiagram =
+      $(go.Diagram, "myDiagramDiv",
+        { isReadOnly: true, allowSelect: false, contentAlignment: go.Spot.Center });
+    myDiagram.nodeTemplateMap.add("st",
+      $(go.Node, "Auto",
+        { locationSpot: go.Spot.Center },
+        new go.Binding("location", "loc", go.Point.parse),
+        
+
+        $(go.Shape, "Circle",
+          {
+            fill: "rgba(0,128,0,0.2)", stroke: null,
+            width: 300, height: 300
+          }),
+
+        $(go.TextBlock, { margin: 5, font: "bold 26px Georgia, Serif" },
+        new go.Binding("text", "name"))
+        
+      ));
+
+    myDiagram.nodeTemplateMap.add("ap",
+      $(go.Node, "Spot",
+        { locationSpot: go.Spot.Center },
+        new go.Binding("location", "loc", go.Point.parse),
+        
+        $(go.Panel, "Spot",
+                  
+          
+          $(go.Shape, "Circle",
+          {
+            fill: "rgba(128,0,0,0.2)", stroke: null,
+            width: 300, height: 300
+          }),
+
+        $(go.TextBlock, { margin: 5, font: "bold 26px Georgia, Serif" },
+        new go.Binding("text", "name"))
+                    
+      )
+      ));
+    
+    var nodeDataArray = [
+      {  name: "ap1", loc: "75 75", category: "ap"},
+      {  name: "ap2", loc: "-75 -75", category: "ap"},
+      {  name: "st1", loc: "150 -150",category: "st" },
+      {  name: "st2", loc: "200 200" ,category: "st"},
+      {  name: "st3", loc: "-190 138" ,category: "st"},
+      {  name: "st4", loc: "-80 -125" ,category: "st"},
+      {  name: "st5", loc: "-150 -80",category: "st"},
+      {  name: "st6", loc: "90 130",category: "st" }      
+    ];
+    
+
+    myDiagram.model = new go.GraphLinksModel(nodeDataArray);
+}
 
 </script>
 
