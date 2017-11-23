@@ -42,9 +42,27 @@ class Functions:
         c1.start()
         for x in range(0, count_ap):
             list_ap[x].start([c1])
+    
+    def ping_nodes(self, src, dst):
+	hosts = []
+	for x in self.mini.stations:
+	    if x.name == src:
+		hosts.append(x)
+	for x in self.mini.accessPoints:
+	    if x.name == src:
+		hosts.append(x)
 
-    def ping_all(self, hosts=None, timeout=None):
-        packets = 0
+	for x in self.mini.stations:
+	    if x.name == dst:
+		hosts.append(x)
+	for x in self.mini.accessPoints:
+	    if x.name == dst:
+		hosts.append(x)
+	return hosts
+
+    def ping(self, src, dst, timeout=None):
+	hosts = self.ping_nodes(src, dst)        
+	packets = 0
         lost = 0
         ploss = None
         out_string = ""
