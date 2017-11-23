@@ -13,7 +13,7 @@
 
 
 </head>
-<body onload="init()">
+<body>
 
 <div class="container">
 
@@ -26,7 +26,7 @@
 				<span class="input-group-btn">
 					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 				</span>
-                    <input id="in_st" type="text" class="form-control text-center" value="1">
+                    <input id="in_st" type="text" class="form-control text-center" value="1" >
                     <span class="input-group-btn">
 					<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 				</span>
@@ -41,7 +41,7 @@
 				<span class="input-group-btn">
 					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
 				</span>
-                    <input id="in_ap" type="text" class="form-control text-center" value="1">
+                    <input id="in_ap" type="text" class="form-control text-center" value="1" >
                     <span class="input-group-btn">
 					<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
 				</span>
@@ -57,11 +57,14 @@
 
 
     <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:600px"></div>
-  <p> A sample of a Euler diagram: that is, a means of representing various sets and their relationships with one another. Euler diagrams have much in common with Venn diagrams.
-    This diagram is read-only, but clicking on a node will search Wikipedia
-    with a query string generated from the "text" property of the node data.
+  <p> Diagram zobrazuje realtime polohu stanic a pristupovych bodov. Moze sa zdat ze sa pristupove body pohybuju tiez, avsak ich pozicia sa nemeni,
+    je to sposobene len skalovanim grafu podla toho ako daleko su od seba krajne stanice.
   </p>
 
+<div class="row">
+  <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-2" onclick="reset();">Reset TOPO</button>
+  <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-1" onclick="shutdown();">Shutdown server</button>
+</div>
 
 
 </div>
@@ -69,13 +72,17 @@
 </body>
 
 <script>
+
+var resetnute=true; //pri resete potrebujem zastavit autoupdate
+
     $(document).on('click', '.number-spinner button', function () {
         var btn = $(this),
             oldValue = btn.closest('.number-spinner').find('input').val().trim(),
             newVal = 0;
 
         if (btn.attr('data-dir') == 'up') {
-            newVal = parseInt(oldValue) + 1;
+            if(oldValue<10) newVal = parseInt(oldValue) + 1;
+            else newVal =10;
         } else {
             if (oldValue > 1) {
                 newVal = parseInt(oldValue) - 1;
@@ -87,8 +94,7 @@
     });
 
 
-       function create(){
-
+       function create(){            
             var station = $('#in_st').val();
             var ap = $('#in_ap').val();
             var list = {ap,station}
@@ -99,20 +105,26 @@
                 type: 'POST',
                 success: function(response) {
                     document.getElementById("myspan").textContent=response.sprava;
+                    init();
                 },
                 error: function(error) {
                     console.log(error);
                 }
             });
+        
+
         };
 
 
 function init() {
+
+
+    resetnute=false;
     
     var $ = go.GraphObject.make;
     myDiagram =
       $(go.Diagram, "myDiagramDiv",
-        { isReadOnly: true, allowSelect: false, contentAlignment: go.Spot.Center });
+        { isReadOnly: true, allowSelect: false, contentAlignment: go.Spot.Center, }, { "animationManager.isEnabled": false });
     myDiagram.nodeTemplateMap.add("st",
       $(go.Node, "Auto",
         { locationSpot: go.Spot.Center },
@@ -122,7 +134,7 @@ function init() {
         $(go.Shape, "Circle",
           {
             fill: "rgba(0,128,0,0.2)", stroke: null,
-            width: 300, height: 300
+            width: 150, height: 150
           }),
 
         $(go.TextBlock, { margin: 5, font: "bold 26px Georgia, Serif" },
@@ -150,20 +162,56 @@ function init() {
       )
       ));
     
-    var nodeDataArray = [
-      {  name: "ap1", loc: "75 75", category: "ap"},
-      {  name: "ap2", loc: "-75 -75", category: "ap"},
-      {  name: "st1", loc: "150 -150",category: "st" },
-      {  name: "st2", loc: "200 200" ,category: "st"},
-      {  name: "st3", loc: "-190 138" ,category: "st"},
-      {  name: "st4", loc: "-80 -125" ,category: "st"},
-      {  name: "st5", loc: "-150 -80",category: "st"},
-      {  name: "st6", loc: "90 130",category: "st" }      
-    ];
+ 
+    autoUpdate();
     
-
-    myDiagram.model = new go.GraphLinksModel(nodeDataArray);
 }
+
+function update(data){
+   
+    
+    myDiagram.model = new go.GraphLinksModel(data);
+  myDiagram.requestUpdate();
+}
+
+
+function autoUpdate()
+{
+    $.ajax({
+        method:         'GET',
+        url:            '/graph/positions', 
+        dataType:       'json',
+
+        success: function(result) 
+        {   
+            
+            update(result);
+            if (!resetnute) setTimeout(autoUpdate, 100);
+        }
+    });
+  }
+
+  function reset(){
+    resetnute=true;
+    $.ajax({
+        method:         'GET',
+        url:            '/reset', 
+        dataType:       'text',
+        success: function(result){   
+          document.getElementById("myspan").textContent=result;
+        }
+    });
+  }
+
+  function shutdown(){
+    
+    $.ajax({
+        method:         'GET',
+        url:            '/shutdown' 
+        
+    });
+  }
+
 
 </script>
 

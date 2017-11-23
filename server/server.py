@@ -1,36 +1,53 @@
 #!flask/bin/python
 
-from flask import Flask, jsonify, abort, request
-from lib.create import create
+from flask import Flask, jsonify, abort, request, json
+from lib.functions import Functions
 
 
 app = Flask(__name__)
 
+
+mini=None
+
 tasks = [
     {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
-        'done': False
+        'name': 'ap1',
+        'loc': '75 74.1',
+        'category': 'ap'
     },
     {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web',
-        'done': False
-    }
+        'name': 'st1',
+        'loc': '125 125',
+        'category': 'st'
+    },
+    {
+        'name': 'st2',
+        'loc': '0 -5',
+        'category': 'st'
+    },
 ]
 
-@app.route('/todo/api/v1.0/tasks', methods=['GET'])
-def get_tasks():
-    return jsonify({'tasks': tasks})
+@app.route('/shutdown', methods=['GET'])
+def shutdown():
+    if(mini!=None): mini.stop()
+    shutdown_server()
+    return 'Server shutting down...'
 
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
-def get_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
-        abort(404)
-    return jsonify({'task': task[0]})
+@app.route('/reset', methods=['GET'])
+def reset():
+    if(mini!=None): mini.stop()
+
+
+    return 'Topology RESET'
+
+
+@app.route('/graph/positions', methods=['GET'])
+def get_positions():
+    pole = mini.ret_info()
+    json_string = json.dumps([z.__dict__ for z in pole])
+    return json_string
+
+
 
 @app.route('/')
 def root():
@@ -43,12 +60,22 @@ def create_topo():
     data = request.get_json()
     st = data['station']
     ap = data['ap']
-
-    create(int(st), int(ap))
+    global mini
+    mini = Functions()
+    mini.create(int(st), int(ap))
     sprava= "Uspesne vytvorena topologia s "+st+" stanicami a "+ap+" apckami!"
 
     return jsonify({'sprava': sprava})
 
+
+'''SERVER START a SHUTDOWN'''
+
+
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
 
 
 if __name__ == '__main__':

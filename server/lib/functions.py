@@ -2,40 +2,40 @@ from mininet.net import Mininet
 from mininet.node import Controller, OVSKernelAP
 from mininet.link import TCLink
 from random import randint
-import Node
+from node import *
 
 
-class MiniWifi:
+class Functions:
     mini = 0
 
     def __init__(self):
         self.mini = Mininet(controller=Controller, link=TCLink, accessPoint=OVSKernelAP)
 
+    def stop(self):
+        self.mini.stopMobility()
+        self.mini.stop()
+
+
+
     def create(self, count_st, count_ap):
         list_st = []
         for x in range(1, count_st+1):
-            list_st.append(self.mini.addStation("sta"+str(x), mac='00:00:00:00:00:0'+str(x), ip='10.0.0.'+str(x)+'/8', range=30))
+            list_st.append(self.mini.addStation("sta"+str(x), mac='00:00:00:00:00:0'+str(x), ip='10.0.0.'+str(x)+'/8', range=80))
 
         list_ap = []
         for y in range(1, count_ap+1):
-            list_ap.append(self.mini.addAccessPoint('ap'+str(y), ssid='test_ssid'+str(y), mode='g', channel=str(y+1), position=str(randint(0, 100))+','+str(randint(0, 100))+',0', range=70))
+            list_ap.append(self.mini.addAccessPoint('ap'+str(y), ssid='test_ssid'+str(y), mode='g', channel=str(y+1), position=str(randint(-200, 200))+','+str(randint(-200, 200))+',0', range=160))
 
         c1 = self.mini.addController('c1', controller=Controller)
 
         self.mini.configureWifiNodes()
 
-        for x in range(0, count_ap):
-            for y in range(x, count_ap):
-                if x == y:
-                    continue
-                else:
-                    self.mini.addLink(list_ap[x], list_ap[y])
+        '''self.mini.plotGraph(max_x=300, max_y=300)
 
-        self.mini.plotGraph(max_x=100, max_y=100)
-        self.mini.seed(20)
+        self.mini.seed(20)'''
 
         "*** Available models: RandomWalk, TruncatedLevyWalk, RandomDirection, RandomWayPoint, GaussMarkov, ReferencePoint, TimeVariantCommunity ***"
-        self.mini.startMobility(time=0, model='RandomDirection', max_x=100, max_y=100, min_v=0.5, max_v=0.8, range=50)
+        self.mini.startMobility(time=0, model='GaussMarkov', max_x=200, max_y=200, min_x=-200, min_y=-200, min_v=0.3, max_v=1.2)
 
         print "*** Starting network"
         self.mini.build()
@@ -88,14 +88,14 @@ class MiniWifi:
         for x in range(0, len(self.mini.accessPoints)):
             string_pos = str(self.mini.accessPoints[x].params['position'][0]) + " " + str(self.mini.accessPoints[x].params['position'][1])
             string_name = self.mini.accessPoints[x].name
-            node = Node.make_node(string_name, string_pos, 'ap')
+            node = make_node(string_name, string_pos, 'ap')
             array.append(node)
 
         for y in range(0, len(self.mini.stations)):
             string_pos = str(self.mini.stations[y].params['position'][0]) + " " + str(
                 self.mini.stations[y].params['position'][1])
             string_name = self.mini.stations[y].name
-            node = Node.make_node(string_name, string_pos, 'st')
+            node = make_node(string_name, string_pos, 'st')
             array.append(node)
 
         return array
