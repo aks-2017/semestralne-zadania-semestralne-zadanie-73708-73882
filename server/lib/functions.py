@@ -44,25 +44,25 @@ class Functions:
             list_ap[x].start([c1])
     
     def ping_nodes(self, src, dst):
-	hosts = []
-	for x in self.mini.stations:
-	    if x.name == src:
-		hosts.append(x)
-	for x in self.mini.accessPoints:
-	    if x.name == src:
-		hosts.append(x)
+        hosts = []
+        for x in self.mini.stations:
+            if x.name == src:
+                hosts.append(x)
+        for x in self.mini.accessPoints:
+            if x.name == src:
+                hosts.append(x)
 
-	for x in self.mini.stations:
-	    if x.name == dst:
-		hosts.append(x)
-	for x in self.mini.accessPoints:
-	    if x.name == dst:
-		hosts.append(x)
-	return hosts
+        for x in self.mini.stations:
+            if x.name == dst:
+                hosts.append(x)
+        for x in self.mini.accessPoints:
+            if x.name == dst:
+                hosts.append(x)
+        return hosts
 
     def ping(self, src, dst, timeout=None):
-	hosts = self.ping_nodes(src, dst)        
-	packets = 0
+        hosts = self.ping_nodes(src, dst)
+        packets = 0
         lost = 0
         ploss = None
         out_string = ""

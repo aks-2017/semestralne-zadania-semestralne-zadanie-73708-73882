@@ -19,9 +19,11 @@
 
 
         <h2 class="text-center">Vytvorenie topologie</h2>
+        
+<div class="container col-md-3">
         <div class="row">
             <label >Pocet stanic</label>
-            <div class="col-xs-3 col-xs-offset-3">
+            <div>
                 <div class="input-group number-spinner">
 				<span class="input-group-btn">
 					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
@@ -32,11 +34,13 @@
 				</span>
                 </div>
             </div>
+
+
         </div>
 
         <div class="row">
             <label>Pocet pristupovych bodov</label>
-            <div class="col-xs-3 col-xs-offset-3">
+            <div>
                 <div class="input-group number-spinner">
 				<span class="input-group-btn">
 					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
@@ -48,18 +52,47 @@
                 </div>
             </div>
         </div>
-    <div class="row">
-        <button class="cudlik btn btn-lg btn-primary col-xs-3 col-xs-offset-3" onclick="create();">Create TOPO</button>
-        </div>
-<div class="row">
-    <span id="myspan"></span>
+    
+
+</div>
+
+<div class="col-md-2">
+    <button class="cudlik btn btn-lg btn-primary" onclick="create();">Create TOPO</button>
 </div>
 
 
-    <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:600px"></div>
-  <p> Diagram zobrazuje realtime polohu stanic a pristupovych bodov. Moze sa zdat ze sa pristupove body pohybuju tiez, avsak ich pozicia sa nemeni,
-    je to sposobene len skalovanim grafu podla toho ako daleko su od seba krajne stanice.
-  </p>
+<div class="container col-md-4 col-md-offset-1">
+  <div class="form-group">
+    <label for="inputlg">Source</label>
+    <input class="form-control input-lg" id="source" type="text">
+  </div>
+   <div class="form-group">
+    <label for="inputlg">Destination</label>
+    <input class="form-control input-lg" id="dest" type="text">
+  </div>
+</div>
+
+
+<div class="col-md-2">
+    <button class="cudlik btn btn-lg btn-primary" onclick="ping();">PING</button>
+</div>
+
+
+
+
+
+
+<div class="container">
+
+
+  <div class="row">
+    <div id="myDiagramDiv" class="col-md-8" style="border: solid 1px black;  height:600px"></div>        
+      
+    
+    <textarea class="col-md-4" id="myTextarea" style="height:600px;"></textarea>
+    
+  </div>
+</div>
 
 <div class="row">
   <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-2" onclick="reset();">Reset TOPO</button>
@@ -72,6 +105,8 @@
 </body>
 
 <script>
+
+
 
 var resetnute=true; //pri resete potrebujem zastavit autoupdate
 
@@ -94,26 +129,54 @@ var resetnute=true; //pri resete potrebujem zastavit autoupdate
     });
 
 
-       function create(){            
-            var station = $('#in_st').val();
-            var ap = $('#in_ap').val();
-            var list = {ap,station}
-            $.ajax({
-                url: '/create',
-                data: JSON.stringify(list),
-                contentType: "application/json",
-                type: 'POST',
-                success: function(response) {
-                    document.getElementById("myspan").textContent=response.sprava;
-                    init();
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        
+function create(){            
+    var station = $('#in_st').val();
+    var ap = $('#in_ap').val();
+    var list = {ap,station}
+    $.ajax({
+        url: '/create',
+        data: JSON.stringify(list),
+        contentType: "application/json",
+        type: 'POST',
+        success: function(response) {
+            myTextArea.val(myTextArea.val() + '\n'+response.sprava);
+            init();
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
 
-        };
+
+};
+
+var myTextArea = $('#myTextarea');
+
+function ping(){
+
+  
+    var src = $('#source').val();
+    var dst = $('#dest').val();
+    var list={src,dst};
+
+$.ajax({
+        url: '/ping',
+        data: JSON.stringify(list),
+        contentType: "application/json",
+        dataType: 'text',
+        type: 'POST',
+        success: function(response) {
+            myTextArea.val(myTextArea.val() + '\n'+response);
+        },
+        error: function(error) {
+            myTextArea.val(myTextArea.val() + '\nERROR!');
+        }
+    });
+
+
+
+    
+}
 
 
 function init() {
@@ -186,7 +249,7 @@ function autoUpdate()
         {   
             
             update(result);
-            if (!resetnute) setTimeout(autoUpdate, 100);
+            if (!resetnute) setTimeout(autoUpdate, 500);
         }
     });
   }
@@ -198,7 +261,7 @@ function autoUpdate()
         url:            '/reset', 
         dataType:       'text',
         success: function(result){   
-          document.getElementById("myspan").textContent=result;
+          myTextArea.val(myTextArea.val() + '\n'+result);
         }
     });
   }

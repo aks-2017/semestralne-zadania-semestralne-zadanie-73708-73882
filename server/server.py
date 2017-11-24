@@ -9,35 +9,19 @@ app = Flask(__name__)
 
 mini=None
 
-tasks = [
-    {
-        'name': 'ap1',
-        'loc': '75 74.1',
-        'category': 'ap'
-    },
-    {
-        'name': 'st1',
-        'loc': '125 125',
-        'category': 'st'
-    },
-    {
-        'name': 'st2',
-        'loc': '0 -5',
-        'category': 'st'
-    },
-]
+
 
 @app.route('/shutdown', methods=['GET'])
 def shutdown():
-    if(mini!=None): mini.stop()
+    if mini is not None:
+        mini.stop()
     shutdown_server()
     return 'Server shutting down...'
 
 @app.route('/reset', methods=['GET'])
 def reset():
-    if(mini!=None): mini.stop()
-
-
+    if mini is not None:
+        mini.stop()
     return 'Topology RESET'
 
 
@@ -47,6 +31,16 @@ def get_positions():
     json_string = json.dumps([z.__dict__ for z in pole])
     return json_string
 
+
+@app.route('/ping', methods=['POST'])
+def ping():
+    data = request.get_json()
+    src = data['src']
+    dest = data['dst']
+
+    log = mini.ping(src, dest)
+
+    return log
 
 
 @app.route('/')
