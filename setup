@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+git clone https://github.com/intrig-unicamp/mininet-wifi
+cd mininet-wifi
+sudo util/install.sh -Wnfvl
+cd ..
+
+pip install -r server/pip-requirements.txt

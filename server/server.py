@@ -10,13 +10,13 @@ app = Flask(__name__)
 mini=None
 
 
-
 @app.route('/shutdown', methods=['GET'])
 def shutdown():
     if mini is not None:
         mini.stop()
     shutdown_server()
     return 'Server shutting down...'
+
 
 @app.route('/reset', methods=['GET'])
 def reset():
