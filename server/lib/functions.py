@@ -60,8 +60,14 @@ class Functions:
                 hosts.append(x)
         return hosts
 
-    def ping(self, src, dst, timeout=None):
-        hosts = self.ping_nodes(src, dst)
+    def ping(self, src=None, dst=None, timeout=None):
+	if src is None and dst is None:
+	    hosts = None
+	else:
+	    hosts = self.ping_nodes(src, dst)
+	    if not hosts:
+	        return "Entered wrong set of nodes for pinging!"
+
         packets = 0
         lost = 0
         ploss = None
