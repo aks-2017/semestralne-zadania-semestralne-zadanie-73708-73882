@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mininet_wifi playground</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.2/go.js"></script>
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/style.css">
+
+
+
+</head>
+<body>
+
+<div class="container">
+
+
+        <h2 class="text-center">Vytvorenie topologie</h2>
+        
+<div class="container col-md-3">
+        <div class="row">
+            <label >Pocet stanic</label>
+            <div>
+                <div class="input-group number-spinner">
+				<span class="input-group-btn">
+					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+				</span>
+                    <input id="in_st" type="text" class="form-control text-center" value="1" >
+                    <span class="input-group-btn">
+					<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+				</span>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <label>Pocet pristupovych bodov</label>
+            <div>
+                <div class="input-group number-spinner">
+				<span class="input-group-btn">
+					<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+				</span>
+                    <input id="in_ap" type="text" class="form-control text-center" value="1" >
+                    <span class="input-group-btn">
+					<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+				</span>
+                </div>
+            </div>
+        </div>
+    
+
+</div>
+
+<div class="col-md-2">
+    <button class="cudlik btn btn-lg btn-primary" onclick="create();">Create TOPO</button>
+</div>
+
+
+<div class="container col-md-4 col-md-offset-1">
+  <div class="form-group">
+    <label for="inputlg">Source</label>
+    <input class="form-control input-lg" id="source" type="text">
+  </div>
+   <div class="form-group">
+    <label for="inputlg">Destination</label>
+    <input class="form-control input-lg" id="dest" type="text">
+  </div>
+</div>
+
+
+<div class="col-md-2">
+    <button class="cudlik btn btn-lg btn-primary" onclick="ping();">PING</button>
+</div>
+
+
+
+
+
+
+<div class="container">
+
+
+  <div class="row">
+    <div id="myDiagramDiv" class="col-md-8" style="border: solid 1px black;  height:600px"></div>        
+      
+    
+    <textarea class="col-md-4" id="myTextarea" style="height:600px;"></textarea>
+    
+  </div>
+</div>
+
+<div class="row">
+  <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-2" onclick="reset();">Reset TOPO</button>
+  <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-1" onclick="shutdown();">Shutdown server</button>
+</div>
+
+
+</div>
+
+</body>
+
+<script>
+
+
+
+var resetnute=true; //pri resete potrebujem zastavit autoupdate
+
+    $(document).on('click', '.number-spinner button', function () {
+        var btn = $(this),
+            oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+            newVal = 0;
+
+        if (btn.attr('data-dir') == 'up') {
+            if(oldValue<10) newVal = parseInt(oldValue) + 1;
+            else newVal =10;
+        } else {
+            if (oldValue > 1) {
+                newVal = parseInt(oldValue) - 1;
+            } else {
+                newVal = 1;
+            }
+        }
+        btn.closest('.number-spinner').find('input').val(newVal);
+    });
+
+
+function create(){            
+    var station = $('#in_st').val();
+    var ap = $('#in_ap').val();
+    var list = {ap,station}
+    $.ajax({
+        url: '/create',
+        data: JSON.stringify(list),
+        contentType: "application/json",
+        type: 'POST',
+        success: function(response) {
+            myTextArea.val(myTextArea.val() + '\n'+response.sprava);
+            init();
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+
+
+};
+
+var myTextArea = $('#myTextarea');
+
+function ping(){
+
+  
+    var src = $('#source').val();
+    var dst = $('#dest').val();
+    var list={src,dst};
+
+$.ajax({
+        url: '/ping',
+        data: JSON.stringify(list),
+        contentType: "application/json",
+        dataType: 'text',
+        type: 'POST',
+        success: function(response) {
+            myTextArea.val(myTextArea.val() + '\n'+response);
+        },
+        error: function(error) {
+            myTextArea.val(myTextArea.val() + '\nERROR!');
+        }
+    });
+
+
+
+    
+}
+
+
+function init() {
+
+
+    resetnute=false;
+    
+    var $ = go.GraphObject.make;
+    myDiagram =
+      $(go.Diagram, "myDiagramDiv",
+        { isReadOnly: true, allowSelect: false, contentAlignment: go.Spot.Center, }, { "animationManager.isEnabled": false });
+    myDiagram.nodeTemplateMap.add("st",
+      $(go.Node, "Auto",
+        { locationSpot: go.Spot.Center },
+        new go.Binding("location", "loc", go.Point.parse),
+        
+
+        $(go.Shape, "Circle",
+          {
+            fill: "rgba(0,128,0,0.2)", stroke: null,
+            width: 150, height: 150
+          }),
+
+        $(go.TextBlock, { margin: 5, font: "bold 26px Georgia, Serif" },
+        new go.Binding("text", "name"))
+        
+      ));
+
+    myDiagram.nodeTemplateMap.add("ap",
+      $(go.Node, "Spot",
+        { locationSpot: go.Spot.Center },
+        new go.Binding("location", "loc", go.Point.parse),
+        
+        $(go.Panel, "Spot",
+                  
+          
+          $(go.Shape, "Circle",
+          {
+            fill: "rgba(128,0,0,0.2)", stroke: null,
+            width: 300, height: 300
+          }),
+
+        $(go.TextBlock, { margin: 5, font: "bold 26px Georgia, Serif" },
+        new go.Binding("text", "name"))
+                    
+      )
+      ));
+    
+ 
+    autoUpdate();
+    
+}
+
+function update(data){
+   
+    
+    myDiagram.model = new go.GraphLinksModel(data);
+  myDiagram.requestUpdate();
+}
+
+
+function autoUpdate()
+{
+    $.ajax({
+        method:         'GET',
+        url:            '/graph/positions', 
+        dataType:       'json',
+
+        success: function(result) 
+        {   
+            
+            update(result);
+            if (!resetnute) setTimeout(autoUpdate, 500);
+        }
+    });
+  }
+
+  function reset(){
+    resetnute=true;
+    $.ajax({
+        method:         'GET',
+        url:            '/reset', 
+        dataType:       'text',
+        success: function(result){   
+          myTextArea.val(myTextArea.val() + '\n'+result);
+        }
+    });
+  }
+
+  function shutdown(){
+    
+    $.ajax({
+        method:         'GET',
+        url:            '/shutdown' 
+        
+    });
+  }
+
+
+</script>
+
+
+</html>
+
