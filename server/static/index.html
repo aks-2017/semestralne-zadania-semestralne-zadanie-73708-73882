@@ -95,7 +95,7 @@
 </div>
 
 <div class="row">
-  <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-2" onclick="reset();">Reset TOPO</button>
+  <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-2" onclick="reset();" disabled>Reset TOPO</button>
   <button class="cudlik btn btn-lg btn-primary col-md-3 col-md-offset-1" onclick="shutdown();">Shutdown server</button>
 </div>
 
@@ -166,7 +166,8 @@ $.ajax({
         dataType: 'text',
         type: 'POST',
         success: function(response) {
-            myTextArea.val(myTextArea.val() + '\n'+response);
+            var date= new Date().toLocaleTimeString();
+            myTextArea.val(myTextArea.val() + '\n'+date+'\n'+response);
         },
         error: function(error) {
             myTextArea.val(myTextArea.val() + '\nERROR!');
