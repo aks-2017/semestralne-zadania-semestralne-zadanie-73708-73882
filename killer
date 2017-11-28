@@ -1,0 +1,5 @@
+#!/bin/bash
+
+kill -9 `sudo lsof -i TCP:6653 | cut -d " " -f2 | tail -1`
+
+
